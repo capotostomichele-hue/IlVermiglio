@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Vermiglio — Gavi, Piemonte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --vermiglio: #CB2821;
+    --vermiglio-dark: #8B1A15;
+    --vermiglio-light: #E8433B;
+    --cream: #F7F3ED;
+    --cream-dark: #EDE6DB;
+    --text-dark: #1A1208;
+    --text-mid: #5C4A3A;
+    --text-light: #9C8878;
+    --gold: #C9A96E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    font-weight: 300;
+  }
+
+  /* NAV */
+  #main-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s, padding 0.4s, box-shadow 0.4s;
+  }
+  #main-nav.scrolled {
+    background: var(--cream);
+    padding: 1rem 3rem;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.4s;
+  }
+  #main-nav.scrolled .nav-logo { color: var(--vermiglio); }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    align-items: center;
+  }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  #main-nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--vermiglio) !important; }
+  .lang-btn {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.85);
+    padding: 0.35rem 0.85rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+  }
+  #main-nav.scrolled .lang-btn {
+    border-color: var(--text-light);
+    color: var(--text-mid);
+  }
+  .lang-btn:hover { background: var(--vermiglio); border-color: var(--vermiglio); color: #fff !important; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--vermiglio-dark) 0%, var(--vermiglio) 45%, #3A1510 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 0 3rem 8rem;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(to top, var(--cream), transparent);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 300;
+    line-height: 1;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+  .hero-cta {
+    display: inline-block;
+    padding: 0.9rem 2.5rem;
+    border: 1px solid rgba(255,255,255,0.6);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+  .hero-cta:hover { background: #fff; color: var(--vermiglio); }
+
+  /* SECTIONS */
+  section { padding: 6rem 3rem; }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--vermiglio);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  /* WELCOME */
+  #welcome {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .welcome-text p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text-mid);
+    margin-bottom: 1rem;
+  }
+  .amenities {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .amenity {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    letter-spacing: 0.05em;
+  }
+  .amenity::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--vermiglio);
+    flex-shrink: 0;
+  }
+  .welcome-img {
+    aspect-ratio: 4/5;
+    background: var(--cream-dark);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--cream-dark), #D4C9BC);
+  }
+  .welcome-img span { position: relative; z-index: 1; }
+
+  /* ROOMS */
+  #camere {
+    background: var(--cream-dark);
+    padding-top: 5rem;
+  }
+  .rooms-header { margin-bottom: 3rem; }
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .room-card {
+    background: var(--cream);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .room-card:hover { transform: translateY(-4px); }
+  .room-img {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #C9B8A8, #A89080);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+  .room-img-2 { background: linear-gradient(135deg, #B8A898, #8A7868); }
+  .room-img-3 { background: linear-gradient(135deg, #A89888, #7A6858); }
+  .room-img span { position: relative; z-index: 1; }
+  .room-body { padding: 1.75rem; }
+  .room-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.3rem;
+  }
+  .room-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--vermiglio);
+    margin-bottom: 0.85rem;
+  }
+  .room-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-mid);
+  }
+
+  /* TERRITORY */
+  #territorio {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .territory-img {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #8A9878, #6A7858);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  #territorio p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text-mid);
+    margin-bottom: 1rem;
+  }
+  .highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+  .highlight-item {
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    padding-left: 1.2rem;
+    border-left: 2px solid var(--vermiglio);
+  }
+
+  /* CONTACT */
+  #contatti {
+    background: var(--text-dark);
+    text-align: center;
+    padding: 7rem 3rem;
+  }
+  #contatti .section-label { color: var(--gold); }
+  #contatti h2 { color: #fff; }
+  #contatti p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 3rem;
+    font-weight: 300;
+  }
+  .contact-methods {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 3rem;
+  }
+  .contact-method {
+    padding: 0 3rem;
+    text-align: center;
+  }
+  .contact-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.15);
+  }
+  .contact-method .label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.5rem;
+  }
+  .contact-method .value {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: #fff;
+  }
+  .contact-method .value a { color: #fff; text-decoration: none; }
+  .contact-method .value a:hover { color: var(--gold); }
+  .cta-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--vermiglio);
+    color: #fff;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.3s;
+    text-decoration: none;
+  }
+  .cta-btn:hover { background: var(--vermiglio-light); }
+
+  /* FOOTER */
+  footer {
+    background: #100C07;
+    padding: 2.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--vermiglio);
+    letter-spacing: 0.02em;
+  }
+  .footer-info {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+  }
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* LANG */
+  [data-en] { display: none; }
+  body.en [data-it] { display: none; }
+  body.en [data-en] { display: block; }
+  body.en span[data-en] { display: inline; }
+  body.en span[data-it] { display: none; }
+
+  @media (max-width: 768px) {
+    #main-nav { padding: 1.2rem 1.5rem; }
+    #main-nav.scrolled { padding: 0.8rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 0 1.5rem 5rem; }
+    #welcome, #territorio { grid-template-columns: 1fr; gap: 2.5rem; }
+    .rooms-grid { grid-template-columns: 1fr; }
+    .contact-methods { flex-direction: column; align-items: center; gap: 1.5rem; }
+    .contact-divider { width: 60px; height: 1px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">Il Vermiglio</a>
+  <ul class="nav-links">
+    <li><a href="#camere"><span data-it>Camere</span><span data-en>Rooms</span></a></li>
+    <li><a href="#territorio"><span data-it>Territorio</span><span data-en>Territory</span></a></li>
+    <li><a href="#contatti"><span data-it>Contatti</span><span data-en>Contact</span></a></li>
+    <li><button class="lang-btn" id="lang-toggle">EN</button></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Gavi · Piemonte · Italia</p>
+    <h1 class="hero-title">Il<br>Vermiglio</h1>
+    <p class="hero-subtitle" data-it>Un rifugio autentico nel cuore del Monferrato, tra vigneti di Cortese e colline dorate.</p>
+    <p class="hero-subtitle" data-en>An authentic retreat in the heart of Monferrato, among Cortese vineyards and golden hills.</p>
+    <a href="#camere" class="hero-cta">
+      <span data-it>Scopri le camere</span>
+      <span data-en>Discover the rooms</span>
+    </a>
+  </div>
+</section>
+
+<section id="welcome">
+  <div class="welcome-text">
+    <p class="section-label">
+      <span data-it>Benvenuti</span>
+      <span data-en>Welcome</span>
+    </p>
+    <h2 data-it>Una casa lontano da casa</h2>
+    <h2 data-en>A home away from home</h2>
+    <p data-it>Il Vermiglio nasce dalla volontà di offrire un'ospitalità genuina, dove ogni dettaglio racconta la storia di questa terra. In Via Garibaldi, nel cuore di Gavi, vi accogliamo in tre camere curate con amore.</p>
+    <p data-en>Il Vermiglio was born from a desire to offer genuine hospitality, where every detail tells the story of this land. On Via Garibaldi, in the heart of Gavi, we welcome you into three lovingly curated rooms.</p>
+    <p data-it>A pochi passi dalle cantine più rinomate del Piemonte, dalla natura del Monferrato e dai borghi medievali della zona.</p>
+    <p data-en>Steps away from Piedmont's most celebrated wineries, Monferrato's countryside, and the region's medieval villages.</p>
+    <div class="amenities">
+      <div class="amenity"><span data-it>Wi-Fi gratuito</span><span data-en>Free Wi-Fi</span></div>
+      <div class="amenity"><span data-it>3 Camere private</span><span data-en>3 Private rooms</span></div>
+      <div class="amenity"><span data-it>Centro di Gavi</span><span data-en>Gavi town centre</span></div>
+      <div class="amenity"><span data-it>Prenotazione diretta</span><span data-en>Direct booking</span></div>
+    </div>
+  </div>
+  <div class="welcome-img"><span data-it>Foto in arrivo</span><span data-en>Photo coming soon</span></div>
+</section>
+
+<section id="camere">
+  <div class="rooms-header">
+    <p class="section-label"><span data-it>Le Camere</span><span data-en>The Rooms</span></p>
+    <h2 data-it>Tre ambienti, un'unica atmosfera</h2>
+    <h2 data-en>Three spaces, one atmosphere</h2>
+  </div>
+  <div class="rooms-grid">
+    <div class="room-card">
+      <div class="room-img"><span data-it>Foto in arrivo</span><span data-en>Photo coming soon</span></div>
+      <div class="room-body">
+        <h3 class="room-name">La Vigna</h3>
+        <p class="room-tag"><span data-it>Camera doppia</span><span data-en>Double room</span></p>
+        <p class="room-desc" data-it>Vista sui vigneti, luce naturale e una palette naturale che richiama le colline piemontesi.</p>
+        <p class="room-desc" data-en>Views over the vineyards, natural light, and a palette inspired by the Piedmontese hills.</p>
+      </div>
+    </div>
+    <div class="room-card">
+      <div class="room-img room-img-2"><span data-it>Foto in arrivo</span><span data-en>Photo coming soon</span></div>
+      <div class="room-body">
+        <h3 class="room-name">Il Cortese</h3>
+        <p class="room-tag"><span data-it>Camera matrimoniale</span><span data-en>Double room</span></p>
+        <p class="room-desc" data-it>Elegante e raccolta, porta il nome del celebre vino bianco di Gavi. Toni caldi e dettagli curati.</p>
+        <p class="room-desc" data-en>Elegant and intimate, named after Gavi's celebrated white wine. Warm tones and refined details.</p>
+      </div>
+    </div>
+    <div class="room-card">
+      <div class="room-img room-img-3"><span data-it>Foto in arrivo</span><span data-en>Photo coming soon</span></div>
+      <div class="room-body">
+        <h3 class="room-name">La Fortezza</h3>
+        <p class="room-tag"><span data-it>Camera singola</span><span data-en>Single room</span></p>
+        <p class="room-desc" data-it>Ispirata alla Fortezza di Gavi, con carattere deciso e un'intimità rara.</p>
+        <p class="room-desc" data-en>Inspired by the Gavi Fortress, with strong character and a rare sense of intimacy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="territorio">
+  <div class="territory-img">
+    <span data-it>Foto in arrivo</span><span data-en>Photo coming soon</span>
+  </div>
+  <div class="territory-text">
+    <p class="section-label"><span data-it>Il Territorio</span><span data-en>The Territory</span></p>
+    <h2 data-it>Gavi e il Monferrato</h2>
+    <h2 data-en>Gavi and Monferrato</h2>
+    <p data-it>Gavi è il cuore della produzione del Gavi DOCG, uno dei bianchi più apprezzati d'Italia. Immersa nelle colline del Monferrato, offre paesaggi straordinari, storia medievale e una cucina autentica.</p>
+    <p data-en>Gavi is the heart of Gavi DOCG production — one of Italy's most celebrated white wines. Nestled in the Monferrato hills, it offers extraordinary landscapes, medieval history, and an authentic cuisine.</p>
+    <div class="highlights">
+      <p class="highlight-item" data-it>Fortezza di Gavi — patrimonio storico</p>
+      <p class="highlight-item" data-en>Gavi Fortress — historic heritage</p>
+      <p class="highlight-item" data-it>Cantine e degustazioni nel raggio di 10 km</p>
+      <p class="highlight-item" data-en>Wineries and tastings within 10 km</p>
+      <p class="highlight-item" data-it>Patrimonio UNESCO delle Langhe-Monferrato</p>
+      <p class="highlight-item" data-en>Langhe-Monferrato UNESCO World Heritage</p>
+      <p class="highlight-item" data-it>A 1 ora da Genova, 1,5 ore da Milano</p>
+      <p class="highlight-item" data-en>1 hour from Genoa, 1.5 hours from Milan</p>
+    </div>
+  </div>
+</section>
+
+<section id="contatti">
+  <p class="section-label"><span data-it>Prenota il tuo soggiorno</span><span data-en>Book your stay</span></p>
+  <h2 data-it>Siamo qui per voi</h2>
+  <h2 data-en>We are here for you</h2>
+  <p data-it>Per prenotazioni e informazioni, scriveteci o chiamateci. Risponderemo con piacere entro 24 ore.</p>
+  <p data-en>For bookings and information, write or call us. We'll be happy to reply within 24 hours.</p>
+  <div class="contact-methods">
+    <div class="contact-method">
+      <span class="label">Email</span>
+      <span class="value"><a href="mailto:Ilvermiglio26@gmail.com">Ilvermiglio26@gmail.com</a></span>
+    </div>
+    <div class="contact-divider"></div>
+    <div class="contact-method">
+      <span class="label"><span data-it>Telefono</span><span data-en>Phone</span></span>
+      <span class="value">+39 — — — —</span>
+    </div>
+    <div class="contact-divider"></div>
+    <div class="contact-method">
+      <span class="label"><span data-it>Indirizzo</span><span data-en>Address</span></span>
+      <span class="value">Via Garibaldi 38, Gavi</span>
+    </div>
+  </div>
+  <a href="mailto:Ilvermiglio26@gmail.com" class="cta-btn">
+    <span data-it>Scrivi una email</span>
+    <span data-en>Send an email</span>
+  </a>
+</section>
+
+<footer>
+  <div class="footer-logo">Il Vermiglio</div>
+  <div class="footer-info">Via Garibaldi 38 · 15066 Gavi (AL) · Piemonte, Italia</div>
+  <div class="footer-copy">© 2026 Il Vermiglio</div>
+</footer>
+
+<script>
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+const langBtn = document.getElementById('lang-toggle');
+langBtn.addEventListener('click', () => {
+  const isEn = document.body.classList.toggle('en');
+  langBtn.textContent = isEn ? 'IT' : 'EN';
+});
+</script>
+</body>
+</html>
