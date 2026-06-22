@@ -217,23 +217,15 @@
     aspect-ratio: 4/5;
     background: var(--cream-dark);
     border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-light);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
     position: relative;
     overflow: hidden;
   }
-  .welcome-img::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--cream-dark), #D4C9BC);
+  .welcome-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
-  .welcome-img span { position: relative; z-index: 1; }
 
   /* ROOMS */
   #camere {
@@ -290,6 +282,44 @@
     color: var(--text-mid);
   }
 
+  /* GALLERY */
+  #spazi {
+    background: var(--cream);
+    padding-top: 6rem;
+  }
+  .gallery-header { margin-bottom: 3rem; max-width: 600px; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .gallery-item {
+    position: relative;
+    aspect-ratio: 3/4;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s;
+  }
+  .gallery-item:hover img { transform: scale(1.05); }
+  .gallery-item .caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.5rem 1rem 1rem;
+    background: linear-gradient(to top, rgba(26,18,8,0.75), transparent);
+    color: #fff;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
+  }
+  .gallery-item.wide { aspect-ratio: auto; }
+
   /* TERRITORY */
   #territorio {
     background: var(--cream);
@@ -300,15 +330,15 @@
   }
   .territory-img {
     aspect-ratio: 4/3;
-    background: linear-gradient(135deg, #8A9878, #6A7858);
+    background: var(--cream-dark);
     border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255,255,255,0.5);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+    overflow: hidden;
+  }
+  .territory-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   #territorio p {
     font-size: 1rem;
@@ -432,6 +462,7 @@
     #hero { padding: 0 1.5rem 5rem; }
     #welcome, #territorio { grid-template-columns: 1fr; gap: 2.5rem; }
     .rooms-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .contact-methods { flex-direction: column; align-items: center; gap: 1.5rem; }
     .contact-divider { width: 60px; height: 1px; }
     footer { flex-direction: column; text-align: center; }
@@ -444,6 +475,7 @@
   <a href="#hero" class="nav-logo">Il Vermiglio</a>
   <ul class="nav-links">
     <li><a href="#camere"><span data-it>Camere</span><span data-en>Rooms</span></a></li>
+    <li><a href="#spazi"><span data-it>Spazi</span><span data-en>Spaces</span></a></li>
     <li><a href="#territorio"><span data-it>Territorio</span><span data-en>Territory</span></a></li>
     <li><a href="#contatti"><span data-it>Contatti</span><span data-en>Contact</span></a></li>
     <li><button class="lang-btn" id="lang-toggle">EN</button></li>
@@ -488,7 +520,7 @@
       <div class="amenity"><span data-it>Grande libreria condivisa</span><span data-en>Large shared library</span></div>
     </div>
   </div>
-  <div class="welcome-img"><span data-it>Foto in arrivo</span><span data-en>Photo coming soon</span></div>
+  <div class="welcome-img"><img src="salotto.jpg" alt="Salotto Il Vermiglio"></div>
 </section>
 
 <section id="camere">
@@ -528,9 +560,45 @@
   </div>
 </section>
 
+<section id="spazi">
+  <div class="gallery-header">
+    <p class="section-label"><span data-it>Gli Spazi</span><span data-en>The Spaces</span></p>
+    <h2 data-it>Spazi comuni da vivere</h2>
+    <h2 data-en>Shared spaces to enjoy</h2>
+    <p data-it style="color: var(--text-mid); line-height: 1.8;">Dalla cucina conviviale alla stanza dei giochi, dalla grande libreria al salotto: ogni ambiente conserva il fascino delle volte affrescate e dei pavimenti in cementine d'epoca.</p>
+    <p data-en style="color: var(--text-mid); line-height: 1.8;">From the convivial kitchen to the games room, from the large library to the lounge: every space preserves the charm of vaulted ceilings and period cement-tile floors.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <img src="sala-giochi.jpg" alt="Stanza dei giochi con calcetto">
+      <div class="caption"><span data-it>Stanza dei giochi</span><span data-en>Games room</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="cucina.jpg" alt="Cucina">
+      <div class="caption"><span data-it>Cucina</span><span data-en>Kitchen</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="sala-pranzo.jpg" alt="Sala da pranzo">
+      <div class="caption"><span data-it>Sala da pranzo</span><span data-en>Dining room</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="libreria.jpg" alt="La grande libreria">
+      <div class="caption"><span data-it>La libreria</span><span data-en>The library</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="bagno.jpg" alt="Bagno">
+      <div class="caption"><span data-it>Bagno</span><span data-en>Bathroom</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="corridoio.jpg" alt="Ingresso e corridoio">
+      <div class="caption"><span data-it>Ingresso</span><span data-en>Entrance</span></div>
+    </div>
+  </div>
+</section>
+
 <section id="territorio">
   <div class="territory-img">
-    <span data-it>Foto in arrivo</span><span data-en>Photo coming soon</span>
+    <img src="balcone.jpg" alt="Vista da Il Vermiglio su Gavi">
   </div>
   <div class="territory-text">
     <p class="section-label"><span data-it>Il Territorio</span><span data-en>The Territory</span></p>
@@ -567,7 +635,7 @@
     <div class="contact-divider"></div>
     <div class="contact-method">
       <span class="label"><span data-it>Telefono</span><span data-en>Phone</span></span>
-      <span class="value">+39 3331046388</span>
+      <span class="value">+39 — — — —</span>
     </div>
     <div class="contact-divider"></div>
     <div class="contact-method">
