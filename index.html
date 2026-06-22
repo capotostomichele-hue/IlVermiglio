@@ -282,50 +282,84 @@
     color: var(--text-mid);
   }
 
-  /* GALLERY — MOSAIC */
+  /* GALLERY — CAROUSEL */
   #spazi {
     background: var(--cream);
     padding-top: 6rem;
   }
   .gallery-header { margin-bottom: 3rem; max-width: 600px; }
-  .mosaic {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 200px;
-    gap: 1rem;
-  }
-  .m-item {
+  .carousel {
     position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    max-height: 78vh;
     border-radius: 2px;
     overflow: hidden;
-    cursor: pointer;
+    background: var(--cream-dark);
   }
-  .m-item img {
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.65,0,0.35,1);
+  }
+  .slide {
+    position: relative;
+    min-width: 100%;
+    height: 100%;
+  }
+  .slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s ease;
   }
-  .m-item:hover img { transform: scale(1.06); }
-  .m-item .caption {
+  .slide .caption {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    padding: 2rem 1.25rem 1.1rem;
-    background: linear-gradient(to top, rgba(26,18,8,0.8), transparent);
+    padding: 3rem 2rem 1.75rem;
+    background: linear-gradient(to top, rgba(26,18,8,0.78), transparent);
     color: #fff;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.35rem;
+    font-size: 1.6rem;
     letter-spacing: 0.02em;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.4s, transform 0.4s;
   }
-  .m-item:hover .caption { opacity: 1; transform: translateY(0); }
-  /* span helpers */
-  .m-tall { grid-row: span 2; }
-  .m-wide { grid-column: span 2; }
-  .m-big  { grid-column: span 2; grid-row: span 2; }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px; height: 48px;
+    border: none;
+    background: rgba(247,243,237,0.85);
+    color: var(--text-dark);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+    z-index: 3;
+  }
+  .carousel-btn:hover { background: #fff; }
+  .carousel-btn.prev { left: 1.25rem; }
+  .carousel-btn.next { right: 1.25rem; }
+  .carousel-dots {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 3;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: background 0.3s, width 0.3s;
+  }
+  .dot.active { background: #fff; width: 24px; border-radius: 4px; }
 
   /* TERRITORY */
   #territorio {
@@ -469,12 +503,11 @@
     #hero { padding: 0 1.5rem 5rem; }
     #welcome, #territorio { grid-template-columns: 1fr; gap: 2.5rem; }
     .rooms-grid { grid-template-columns: 1fr; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
-    .mosaic { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; gap: 0.6rem; }
-    .m-big { grid-column: span 2; grid-row: span 2; }
-    .m-wide { grid-column: span 2; grid-row: span 1; }
-    .m-tall { grid-row: span 1; }
-    .m-item .caption { opacity: 1; transform: none; font-size: 1.1rem; padding: 1.5rem 1rem 0.9rem; }
+    .carousel { aspect-ratio: 4/5; max-height: none; }
+    .slide .caption { font-size: 1.3rem; padding: 2.5rem 1.25rem 1.5rem; }
+    .carousel-btn { width: 40px; height: 40px; }
+    .carousel-btn.prev { left: 0.6rem; }
+    .carousel-btn.next { right: 0.6rem; }
     .contact-methods { flex-direction: column; align-items: center; gap: 1.5rem; }
     .contact-divider { width: 60px; height: 1px; }
     footer { flex-direction: column; text-align: center; }
@@ -580,35 +613,68 @@
     <p data-it style="color: var(--text-mid); line-height: 1.8;">Ogni ambiente custodisce il fascino delle volte affrescate e dei pavimenti in cementine d'epoca: dalla cucina che profuma di mattino alla quiete della libreria, fino al salotto dove fermarsi al calar della sera.</p>
     <p data-en style="color: var(--text-mid); line-height: 1.8;">Every room holds the charm of frescoed vaults and period cement-tile floors: from the kitchen scented with morning to the stillness of the library, to the lounge where evenings slow down.</p>
   </div>
-  <div class="mosaic">
-    <div class="m-item m-big">
-      <img src="sala-giochi-w.jpg" alt="Stanza dei giochi con calcetto e scacchi">
-      <div class="caption"><span data-it>Stanza dei giochi</span><span data-en>Games room</span></div>
+  <div class="carousel" id="carousel">
+    <div class="carousel-track" id="track">
+      <div class="slide">
+        <img src="s01-giochi-a.jpg" alt="Stanza dei giochi">
+        <div class="caption"><span data-it>Stanza dei giochi</span><span data-en>Games room</span></div>
+      </div>
+      <div class="slide">
+        <img src="s02-giochi-b.jpg" alt="Stanza dei giochi con calcetto">
+        <div class="caption"><span data-it>Stanza dei giochi</span><span data-en>Games room</span></div>
+      </div>
+      <div class="slide">
+        <img src="s03-salotto-a.jpg" alt="Salotto">
+        <div class="caption"><span data-it>Salotto</span><span data-en>Lounge</span></div>
+      </div>
+      <div class="slide">
+        <img src="s04-salotto-b.jpg" alt="Salotto">
+        <div class="caption"><span data-it>Salotto</span><span data-en>Lounge</span></div>
+      </div>
+      <div class="slide">
+        <img src="s05-pranzo-a.jpg" alt="Sala da pranzo">
+        <div class="caption"><span data-it>Sala da pranzo</span><span data-en>Dining room</span></div>
+      </div>
+      <div class="slide">
+        <img src="s06-pranzo-b.jpg" alt="Sala da pranzo">
+        <div class="caption"><span data-it>Sala da pranzo</span><span data-en>Dining room</span></div>
+      </div>
+      <div class="slide">
+        <img src="s07-cucina-a.jpg" alt="Cucina">
+        <div class="caption"><span data-it>Cucina</span><span data-en>Kitchen</span></div>
+      </div>
+      <div class="slide">
+        <img src="s08-cucina-b.jpg" alt="Cucina con isola">
+        <div class="caption"><span data-it>Cucina</span><span data-en>Kitchen</span></div>
+      </div>
+      <div class="slide">
+        <img src="s09-libreria-a.jpg" alt="La grande libreria">
+        <div class="caption"><span data-it>La libreria</span><span data-en>The library</span></div>
+      </div>
+      <div class="slide">
+        <img src="s10-libreria-b.jpg" alt="La grande libreria">
+        <div class="caption"><span data-it>La libreria</span><span data-en>The library</span></div>
+      </div>
+      <div class="slide">
+        <img src="s11-bagno-a.jpg" alt="Bagno">
+        <div class="caption"><span data-it>Bagno</span><span data-en>Bathroom</span></div>
+      </div>
+      <div class="slide">
+        <img src="s12-bagno-b.jpg" alt="Bagno">
+        <div class="caption"><span data-it>Bagno</span><span data-en>Bathroom</span></div>
+      </div>
+      <div class="slide">
+        <img src="s13-ingresso.jpg" alt="Ingresso e corridoio">
+        <div class="caption"><span data-it>Ingresso</span><span data-en>Entrance</span></div>
+      </div>
+      <div class="slide">
+        <img src="s14-balcone.jpg" alt="Balcone con vista">
+        <div class="caption"><span data-it>Il balcone</span><span data-en>The balcony</span></div>
+      </div>
     </div>
-    <div class="m-item m-tall">
-      <img src="salotto.jpg" alt="Salotto">
-      <div class="caption"><span data-it>Salotto</span><span data-en>Lounge</span></div>
-    </div>
-    <div class="m-item m-tall">
-      <img src="sala-pranzo.jpg" alt="Sala da pranzo">
-      <div class="caption"><span data-it>Sala da pranzo</span><span data-en>Dining</span></div>
-    </div>
-    <div class="m-item m-wide">
-      <img src="libreria-w.jpg" alt="La grande libreria">
-      <div class="caption"><span data-it>La libreria</span><span data-en>The library</span></div>
-    </div>
-    <div class="m-item m-wide">
-      <img src="cucina-w.jpg" alt="Cucina">
-      <div class="caption"><span data-it>Cucina</span><span data-en>Kitchen</span></div>
-    </div>
-    <div class="m-item m-wide">
-      <img src="corridoio.jpg" alt="Ingresso e corridoio">
-      <div class="caption"><span data-it>Ingresso</span><span data-en>Entrance</span></div>
-    </div>
-    <div class="m-item m-wide">
-      <img src="bagno.jpg" alt="Bagno">
-      <div class="caption"><span data-it>Bagno</span><span data-en>Bathroom</span></div>
-    </div>
+    <button class="carousel-btn prev" id="prevBtn" aria-label="Precedente">‹</button>
+    <button class="carousel-btn next" id="nextBtn" aria-label="Successivo">›</button>
+    <div class="carousel-dots" id="dots"></div>
   </div>
 </section>
 
@@ -689,6 +755,46 @@ langBtn.addEventListener('click', () => {
   const isEn = document.body.classList.toggle('en');
   langBtn.textContent = isEn ? 'IT' : 'EN';
 });
+
+// CAROUSEL
+(function(){
+  const track = document.getElementById('track');
+  if (!track) return;
+  const slides = track.children;
+  const total = slides.length;
+  const dotsBox = document.getElementById('dots');
+  let idx = 0;
+  let timer;
+
+  // build dots
+  for (let i=0; i<total; i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' active':'');
+    d.addEventListener('click', () => { goTo(i); reset(); });
+    dotsBox.appendChild(d);
+  }
+  const dots = dotsBox.children;
+
+  function goTo(n){
+    idx = (n + total) % total;
+    track.style.transform = 'translateX(-' + (idx*100) + '%)';
+    for (let i=0;i<total;i++) dots[i].classList.toggle('active', i===idx);
+  }
+  function next(){ goTo(idx+1); }
+  function prev(){ goTo(idx-1); }
+  function reset(){ clearInterval(timer); timer = setInterval(next, 4500); }
+
+  document.getElementById('nextBtn').addEventListener('click', () => { next(); reset(); });
+  document.getElementById('prevBtn').addEventListener('click', () => { prev(); reset(); });
+
+  // pause on hover
+  const car = document.getElementById('carousel');
+  car.addEventListener('mouseenter', () => clearInterval(timer));
+  car.addEventListener('mouseleave', reset);
+
+  reset();
+})();
+
 </script>
 </body>
 </html>
